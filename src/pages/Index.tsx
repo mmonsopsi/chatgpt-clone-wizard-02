@@ -15,13 +15,12 @@ const Index = () => {
 
   const simulateResponse = async (userMessage: string) => {
     setIsTyping(true);
-    // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
     setMessages((prev) => [
       ...prev,
       {
         role: "assistant",
-        content: `I received your message: "${userMessage}". This is a simulated response. To make this chatbot functional, you'll need to integrate it with an AI service like OpenAI's API.`,
+        content: `Recebi sua mensagem: "${userMessage}". Esta é uma resposta simulada. Para tornar este chatbot funcional, você precisará integrá-lo com um serviço de IA como a API da OpenAI.`,
       },
     ]);
     setIsTyping(false);
@@ -35,11 +34,16 @@ const Index = () => {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <motion.main 
-        className="flex-1 py-4"
+        className="flex-1"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
+        {messages.length === 0 && (
+          <div className="flex h-[60vh] items-center justify-center">
+            <h1 className="text-4xl font-bold text-foreground/80">Como posso ajudar?</h1>
+          </div>
+        )}
         <div className="chat-container flex flex-col gap-6 overflow-y-auto px-4 py-4">
           {messages.map((message, index) => (
             <ChatMessage key={index} {...message} />

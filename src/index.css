@@ -4,38 +4,38 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --background: 225 25% 10%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card: 225 25% 12%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover: 225 25% 12%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 240 5.9% 10%;
+    --primary: 252 87% 74%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: 225 25% 15%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --muted: 225 25% 15%;
+    --muted-foreground: 0 0% 75%;
 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --accent: 225 25% 15%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    --border: 225 25% 20%;
+    --input: 225 25% 20%;
+    --ring: 252 87% 74%;
 
     --radius: 0.75rem;
 
-    --chat-user: 234 89% 74%;
-    --chat-assistant: 0 0% 98%;
+    --chat-user: 252 87% 74%;
+    --chat-assistant: 225 25% 15%;
   }
 }
 
@@ -54,7 +54,7 @@
 }
 
 .message-content {
-  @apply relative rounded-2xl px-4 py-3 text-sm transition-all duration-200;
+  @apply relative rounded-2xl px-4 py-3 text-sm transition-all duration-200 max-w-3xl mx-auto;
 }
 
 .user-message {
@@ -62,7 +62,7 @@
 }
 
 .assistant-message {
-  @apply bg-chat-assistant shadow-sm;
+  @apply bg-chat-assistant text-foreground;
 }
 
 .typing-indicator span {

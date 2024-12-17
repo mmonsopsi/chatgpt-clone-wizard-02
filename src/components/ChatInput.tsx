@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { SendHorizontal } from "lucide-react";
+import { SendHorizontal, Paperclip, Globe } from "lucide-react";
 import { useState, KeyboardEvent } from "react";
 
 interface ChatInputProps {
@@ -26,23 +26,46 @@ export const ChatInput = ({ onSend, disabled }: ChatInputProps) => {
   };
 
   return (
-    <div className="flex w-full max-w-4xl items-end gap-2 p-4 mx-auto">
-      <Textarea
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder="Type a message..."
-        className="min-h-[60px] max-h-[200px] resize-none rounded-xl bg-background p-4 focus-visible:ring-1"
-        disabled={disabled}
-      />
-      <Button
-        onClick={handleSend}
-        disabled={!message.trim() || disabled}
-        size="icon"
-        className="h-[60px] w-[60px] rounded-xl bg-primary hover:bg-primary/90"
-      >
-        <SendHorizontal className="h-6 w-6" />
-      </Button>
+    <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background to-background/0 p-4">
+      <div className="mx-auto max-w-3xl">
+        <div className="relative flex items-end gap-2 rounded-xl border bg-background p-2">
+          <Textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Envie uma mensagem para o ChatGPT"
+            className="min-h-[20px] max-h-[200px] resize-none bg-transparent border-0 p-2 focus-visible:ring-0"
+            disabled={disabled}
+          />
+          <div className="flex items-center gap-2">
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-8 w-8 rounded-lg hover:bg-secondary"
+            >
+              <Paperclip className="h-5 w-5" />
+            </Button>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-8 w-8 rounded-lg hover:bg-secondary"
+            >
+              <Globe className="h-5 w-5" />
+            </Button>
+            <Button
+              onClick={handleSend}
+              disabled={!message.trim() || disabled}
+              size="icon"
+              className="h-8 w-8 rounded-lg bg-primary hover:bg-primary/90"
+            >
+              <SendHorizontal className="h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+        <div className="mt-2 text-center text-xs text-muted-foreground">
+          O ChatGPT pode cometer erros. Considere verificar informações importantes.
+        </div>
+      </div>
     </div>
   );
 };
