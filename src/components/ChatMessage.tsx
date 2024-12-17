@@ -14,7 +14,7 @@ export const ChatMessage = ({ content, role }: ChatMessageProps) => {
       transition={{ duration: 0.3 }}
       className={cn(
         "mx-auto flex w-full max-w-4xl px-4",
-        role === "user" ? "justify-start" : "justify-start"
+        role === "user" ? "justify-end" : "justify-start"
       )}
     >
       <div
