@@ -4,6 +4,7 @@ import { ChatInput } from "@/components/ChatInput";
 import { TypingIndicator } from "@/components/TypingIndicator";
 import { motion } from "framer-motion";
 import { ApiKeyForm } from "@/components/ApiKeyForm";
+import { toast } from "@/components/ui/use-toast";
 
 interface Message {
   role: "user" | "assistant";
@@ -16,22 +17,62 @@ const Index = () => {
   const [apiKey, setApiKey] = useState<string>("");
   const [model, setModel] = useState<string>("");
 
-  const simulateResponse = async (userMessage: string) => {
-    setIsTyping(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setMessages((prev) => [
-      ...prev,
-      {
-        role: "assistant",
-        content: `Recebi sua mensagem usando o modelo ${model}: "${userMessage}". Esta é uma resposta simulada. Para tornar este chatbot funcional, você precisará integrá-lo com a API da OpenAI.`,
-      },
-    ]);
-    setIsTyping(false);
+  const sendMessageToOpenAI = async (userMessage: string) => {
+    try {
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: model,
+          messages: [
+            {
+              role: "system",
+              content:
+                "Você é um assistente prestativo e amigável. Responda de forma clara e concisa.",
+            },
+            ...messages,
+            { role: "user", content: userMessage },
+          ],
+          temperature: 0.7,
+          max_tokens: 1000,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error?.message || "Erro ao se comunicar com a API");
+      }
+
+      const data = await response.json();
+      return data.choices[0].message.content;
+    } catch (error) {
+      console.error("Erro na chamada da API:", error);
+      toast({
+        title: "Erro",
+        description: error instanceof Error ? error.message : "Erro desconhecido",
+        variant: "destructive",
+      });
+      return null;
+    }
   };
 
   const handleSendMessage = async (content: string) => {
     setMessages((prev) => [...prev, { role: "user", content }]);
-    await simulateResponse(content);
+    setIsTyping(true);
+
+    const assistantResponse = await sendMessageToOpenAI(content);
+    
+    if (assistantResponse) {
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: assistantResponse },
+      ]);
+    }
+    
+    setIsTyping(false);
   };
 
   const handleApiSubmit = (newApiKey: string, selectedModel: string) => {
